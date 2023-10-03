@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid';
 import * as Yup from "yup";
 import { CssInput, WrapperForm } from './ContactForm.styled';
 import { addContacts } from 'components/redux/contactSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 
@@ -17,7 +17,18 @@ const SignupSchema = Yup.object().shape({
 
 export const ContactForm = () => {  
     const dispatch = useDispatch()
- 
+    const phoneList = useSelector(state => state.contacts.contacts)
+    
+
+    function chekContact(value) {
+        const checkNameUser = phoneList.some(user =>
+            user.name.toLowerCase() === value.name.toLowerCase())
+        if (checkNameUser) {
+            alert(`${value.name} is already in contacts`)
+            return
+        }
+        dispatch(addContacts(value))
+    } 
     
     return (
         <Formik
@@ -30,8 +41,8 @@ export const ContactForm = () => {
 
             onSubmit={(values, actions) => { 
                 values.id = nanoid()
+                chekContact(values)
                 
-                dispatch(addContacts(values))
                 actions.resetForm(true)
             }}
         >

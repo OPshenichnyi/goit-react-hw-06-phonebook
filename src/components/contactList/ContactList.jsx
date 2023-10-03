@@ -17,6 +17,11 @@ export const ContactList = () => {
     const listPhoneBook = useSelector(state => state.contacts.contacts)
     const FiltredList = listContacts(listPhoneBook, filter)
 
+    function getIdxPhone(value) {        
+        const index = listPhoneBook.findIndex(user => user.id === value)
+        dispatch(removeContact(index))
+    }
+
     return (
         <ul>
             {FiltredList.map(({ id, name, number }) => (
@@ -26,7 +31,7 @@ export const ContactList = () => {
                     <button
                         type="button"
                         value={id}
-                        onClick={(e) => dispatch(removeContact(e.target.value))}
+                        onClick={(e) => getIdxPhone(e.target.value) }
                     >Delete</button>
                 </ListItemPhone>
             ))}
