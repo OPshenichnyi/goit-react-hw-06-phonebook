@@ -1,7 +1,10 @@
+import { changeFindStr } from "components/redux/filterSlice"
 import { CssFilterWrrap } from "./Filter.styled"
+import { useDispatch} from "react-redux"
 
 
-export const Filter = ({filterContact}) => {
+export const Filter = () => {
+    const dispatch = useDispatch()
     return (
         <CssFilterWrrap>
             <label htmlFor="name">
@@ -12,7 +15,7 @@ export const Filter = ({filterContact}) => {
                     name="filter"
                     onChange={(e) => {
                         e.preventDefault()
-                        filterContact(e.target.value)
+                        dispatch(changeFindStr(e.target.value))
                     }}
                 />
             </label>

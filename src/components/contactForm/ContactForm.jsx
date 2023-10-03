@@ -2,6 +2,10 @@ import { Formik,ErrorMessage} from 'formik';
 import { nanoid } from 'nanoid';
 import * as Yup from "yup";
 import { CssInput, WrapperForm } from './ContactForm.styled';
+import { addContacts } from 'components/redux/contactSlice';
+import { useDispatch } from 'react-redux';
+
+
 
 const SignupSchema = Yup.object().shape({
     name: Yup.string()
@@ -11,7 +15,10 @@ const SignupSchema = Yup.object().shape({
     number: Yup.number().required('Required'),
 });
 
-export const ContactForm = ({addConacts}) => {  
+export const ContactForm = () => {  
+    const dispatch = useDispatch()
+ 
+    
     return (
         <Formik
             validationSchema={SignupSchema}
@@ -23,7 +30,8 @@ export const ContactForm = ({addConacts}) => {
 
             onSubmit={(values, actions) => { 
                 values.id = nanoid()
-                addConacts(values)
+                
+                dispatch(addContacts(values))
                 actions.resetForm(true)
             }}
         >
